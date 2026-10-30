@@ -56,11 +56,48 @@ while i < tam:
         print(f"{token} pertence a seguinte classe: {classe}")
 
 #Fase 03: identificador de Operadores e Delimitadores
-
-
-
-    #ESSE ELSE É PROVISÓRIO RAPAZIADA. É PRA NÃO CAUSAR LOOP INFINITO
     else:
-        print(c, "-> ainda não tratado")
-        i = i + 1
-    
+        if i + 1 < tam:
+            prox = linha[i + 1]
+        else:
+            prox = ""
+
+        # Operador de Atribuição (<-)
+        if (c == "<") and (prox == "-"):
+            token = "<-"
+            classe = "ATRIBUICAO"
+            print(f"{token} pertence a seguinte classe: {classe}")
+            i += 1
+        # Operadores Relacionais Compostos (<=, >=, <>)
+        elif ((c == "<") or (c == ">")) and (prox == "="):
+            token = c + prox
+            classe = "OPERADOR RELACIONAL"
+            print(f"{token} pertence a seguinte classe: {classe}")
+            i += 1
+        elif (c == "<") and (prox == ">"):
+            token = "<>"
+            classe = "OPERADOR RELACIONAL"
+            print(f"{token} pertence a seguinte classe: {classe}")
+            i += 1
+        # Operadores Relacionais Simples (<, >, =)
+        elif (c == "<") or (c == ">") or (c == "="):
+            token = c
+            classe = "OPERADOR RELACIONAL"
+            print(f"{token} pertence a seguinte classe: {classe}")
+        # Operadores Aritméticos (+, -, *, /)
+        elif (c == "+") or (c == "-") or (c == "*") or (c == "/"):
+            token = c
+            classe = "OPERADOR ARITMETICO"
+            print(f"{token} pertence a seguinte classe: {classe}")
+        # Delimitadores e Pontuação
+        elif (c == "(") or (c == ")") or (c == ",") or (c == ";"):
+            token = c
+            classe = "DELIMITADOR"
+            print(f"{token} pertence a seguinte classe: {classe}")
+        # Símbolos não reconhecidos
+        else:
+            token = c
+            classe = "SIMBOLO NAO RECONHECIDO"
+            print(f"{token} pertence a seguinte classe: {classe}")
+
+        i += 1
