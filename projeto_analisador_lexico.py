@@ -1,10 +1,27 @@
 '''
 Analisador Léxico apresentado a matéria de Projeto II
 '''
+import os
+
 palavras_reservadas = ["SE", "SENAO_SE", "ENTAO", "SENAO", "FIM_SE", "FIMSE", "ESCREVA", "LEIA", "VAR", "INTEIRO", "REAL", "CARACTERE", "LOGICO", "ALGORITMO", "INICIO", "FIMALGORITMO", "E", "OU"]
+
+print("--- ANALISADOR LÉXICO ---")
+print("Digite 'exit' para fechar ou 'clear' para limpar a tela.\n")
 
 while True:
     Texto_digitado = str(input("Informe os caracteres da linha para análise: "))
+    
+    if Texto_digitado == "exit":
+        break
+
+    if Texto_digitado == "clear":
+        os.system('cls' if os.name == 'nt' else 'clear')
+        print("--- ANALISADOR LÉXICO ---")
+        print("Digite 'exit' para fechar ou 'clear' para limpar a tela.\n")
+        continue
+
+    print()
+
     i = 0
     c = ""
     token = ""
@@ -103,3 +120,5 @@ while True:
                 print(f"{token} pertence a seguinte classe: {classe}")
 
             i += 1
+
+    print()
