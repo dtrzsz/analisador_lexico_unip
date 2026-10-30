@@ -11,10 +11,12 @@ print("Digite 'exit' para fechar ou 'clear' para limpar a tela.\n")
 while True:
     Texto_digitado = str(input("Informe os caracteres da linha para análise: "))
     
-    if Texto_digitado == "exit":
+    comando = Texto_digitado.strip().lower()
+
+    if comando == "exit":
         break
 
-    if Texto_digitado == "clear":
+    if comando == "clear":
         os.system('cls' if os.name == 'nt' else 'clear')
         print("--- ANALISADOR LÉXICO ---")
         print("Digite 'exit' para fechar ou 'clear' para limpar a tela.\n")
