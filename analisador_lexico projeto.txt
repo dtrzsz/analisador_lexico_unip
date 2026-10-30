@@ -1,0 +1,76 @@
+ALGORITMO "AnalisadorLexico"
+VAR
+	linha: VETOR[1..100] DE CARACTERE
+	tam, i, j: INTEIRO
+	c, prox, token: CARACTERE
+INICIO
+	tam <- 100
+	i <- 1
+	
+	ESCREVA("Digite a linha para análise:")
+	PARA j DE 1 ATE tam FACA
+		LEIA(linha[j])
+	FIMPARA
+
+	ENQUANTO i <= tam FACA
+		c <- linha[i]
+
+		// pular espaco em branco ou vazio
+		SE (c = " ") OU (c = "") ENTAO
+			i <- i + 1
+		
+		// checa se e variavel ou palavra reservada
+		SENAO_SE ((c >= "a") E (c <= "z")) OU ((c >= "A") E (c <= "Z")) OU (c = "_") ENTAO
+			token <- ""
+			ENQUANTO (i <= tam) E (((linha[i] >= "a") E (linha[i] <= "z")) OU ((linha[i] >= "A") E (linha[i] <= "Z")) OU ((linha[i] >= "0") E (linha[i] <= "9")) OU (linha[i] = "_")) FACA
+				token <- token + linha[i]
+				i <- i + 1
+			FIMENQUANTO
+			
+			SE (token = "SE") OU (token = "SENAO_SE") OU (token = "ENTAO") OU (token = "SENAO") OU (token = "FIM_SE") OU (token = "FIMSE") OU (token = "ESCREVA") OU (token = "LEIA") OU (token = "VAR") OU (token = "INTEIRO") OU (token = "REAL") ENTAO
+				ESCREVA(token, " -> PALAVRA RESERVADA")
+			SENAO
+				ESCREVA(token, " -> IDENTIFICADOR")
+			FIMSE
+
+		// checa numeros
+		SENAO_SE (c >= "0") E (c <= "9") ENTAO
+			token <- ""
+			ENQUANTO (i <= tam) E (linha[i] >= "0") E (linha[i] <= "9") FACA
+				token <- token + linha[i]
+				i <- i + 1
+			FIMENQUANTO
+			ESCREVA(token, " -> NUMERO")
+
+		// checa operadores e o resto
+		SENAO
+			SE i < tam ENTAO
+				prox <- linha[i + 1]
+			SENAO
+				prox <- ""
+			FIMSE
+
+			// testa atribuicao e operadores duplos primeiro
+			SE (c = "<") E (prox = "-") ENTAO
+				ESCREVA("<- -> ATRIBUICAO")
+				i <- i + 1
+			SENAO_SE ((c = "<") OU (c = ">")) E (prox = "=") ENTAO
+				ESCREVA(c, prox, " -> OPERADOR RELACIONAL")
+				i <- i + 1
+			SENAO_SE (c = "<") E (prox = ">") ENTAO
+				ESCREVA("<> -> OPERADOR RELACIONAL")
+				i <- i + 1
+			SENAO_SE (c = "<") OU (c = ">") OU (c = "=") ENTAO
+				ESCREVA(c, " -> OPERADOR RELACIONAL")
+			SENAO_SE (c = "+") OU (c = "-") OU (c = "*") OU (c = "/") ENTAO
+				ESCREVA(c, " -> OPERADOR ARITMETICO")
+			SENAO_SE (c = "(") OU (c = ")") OU (c = ",") OU (c = ";") ENTAO
+				ESCREVA(c, " -> DELIMITADOR")
+			SENAO
+				ESCREVA(c, " -> SIMBOLO NAO RECONHECIDO")
+			FIMSE
+			
+			i <- i + 1
+		FIMSE
+	FIMENQUANTO
+FIMALGORITMO
